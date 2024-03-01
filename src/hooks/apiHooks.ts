@@ -82,22 +82,7 @@ const useMedia = () => {
     );
   };
 
-  // deleteMedia function
-
-  const deleteMedia = async (media_id: number, token: string) => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    };
-    return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_MEDIA_API + '/media/' + media_id,
-      options,
-    );
-  };
-
-  return {mediaArray, postMedia, deleteMedia};
+  return {mediaArray, postMedia};
 };
 
 const useUser = () => {
@@ -255,7 +240,7 @@ const useComment = () => {
     media_id: number,
     token: string,
   ) => {
-    // Send a POST request to /comments with the comment object and the token in the Authorization header.
+    // TODO: Send a POST request to /comments with the comment object and the token in the Authorization header.
     const options: RequestInit = {
       method: 'POST',
       headers: {
@@ -278,6 +263,7 @@ const useComment = () => {
     const comments = await fetchData<Comment[]>(
       process.env.EXPO_PUBLIC_MEDIA_API + '/comments/bymedia/' + media_id,
     );
+    // Get usernames for all comments from auth api
     const commentsWithUsername = await Promise.all<
       Comment & {username: string}
     >(
